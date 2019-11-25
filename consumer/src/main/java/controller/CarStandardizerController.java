@@ -1,6 +1,5 @@
 package controller;
 
-import authentication.Authentication;
 import model.Car;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -18,12 +17,11 @@ public class CarStandardizerController {
 
     private final static Logger logger = LoggerFactory.getLogger(CarStandardizerController.class);
     private static String topicName;
-    private static boolean auth = false;
+
     private static Car standardizerCar = null;
 
     public static void main(String[] args) {
 
-        auth = Authentication.isValid();
         Properties props = new Properties();
 
         try {
@@ -35,29 +33,28 @@ public class CarStandardizerController {
             logger.error(String.valueOf(e));
         }
 
-        if (auth) {
-            KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
-            consumer.subscribe(Collections.singletonList(topicName));
-            while (true) {
-                ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
-                for (ConsumerRecord<String, Car> message : messages) {
-                    try {
-                        logger.info("Car standardized controller received after filtration "
-                                + message.value().toString());
-                        standardizerCar = message.value();
-                    } catch (Exception e) {
-                        logger.error(String.valueOf(e));
-                    }
-
-                    // Cars standardizer starts work
-                    standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
-                    standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
-
-                    logger.info(" Hello Mates! we got new car: " + standardizerCar.getBrand()
-                            + " model: " + standardizerCar.getModel() + " with engine " + standardizerCar.getEngine()
-                            + " from year - " + standardizerCar.getYear());
+        KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
+        consumer.subscribe(Collections.singletonList(topicName));
+        while (true) {
+            ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
+            for (ConsumerRecord<String, Car> message : messages) {
+                try {
+                    logger.info("Car standardized controller received after filtration "
+                            + message.value().toString());
+                    standardizerCar = message.value();
+                } catch (Exception e) {
+                    logger.error(String.valueOf(e));
                 }
+
+                // Cars standardizer starts work
+                standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
+                standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
+
+                logger.info(" Hello Mates! we got new car: " + standardizerCar.getBrand()
+                        + " model: " + standardizerCar.getModel() + " with engine " + standardizerCar.getEngine()
+                        + " from year - " + standardizerCar.getYear());
             }
         }
+
     }
 }

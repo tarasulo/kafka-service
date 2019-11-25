@@ -1,6 +1,5 @@
 package controller;
 
-import authentication.Authentication;
 import model.Car;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -22,12 +21,10 @@ public class MessageFilterController {
     private final static Logger logger = LoggerFactory.getLogger(MessageFilterController.class);
     private static String topicName;
     private static String topicFilteredName;
-    private static boolean auth = false;
     private static Car tempCar = null;
 
     public static void main(String[] args) {
 
-        auth = Authentication.isValid();
         Properties props = new Properties();
         Properties propsRedirect = new Properties();
 
@@ -49,37 +46,35 @@ public class MessageFilterController {
             logger.error(String.valueOf(e));
         }
 
-        if (auth) {
+        KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
+        consumer.subscribe(Collections.singletonList(topicName));
+        logger.info("Subscribed to topic " + topicName);
 
-            KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
-            consumer.subscribe(Collections.singletonList(topicName));
-            logger.info("Subscribed to topic " + topicName);
-
-            while (true) {
-                ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
-                for (ConsumerRecord<String, Car> message : messages) {
-                    try {
-                        logger.info("Filter controller received "
-                                + message.value().toString());
-                        tempCar = message.value();
-                    } catch (Exception e) {
-                        logger.error(String.valueOf(e));
-                    }
-                    // Cars filter starts
-                    if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
-                        Producer<String, Car> producer = new KafkaProducer<String, Car>(propsRedirect);
-                        try {
-                            producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
-                            producer.close();
-                        } catch (Exception e) {
-                            logger.error("Resend failed " + String.valueOf(e));
-                        }
-                    } else {
-                        logger.info("Sorry, these " + tempCar.toString() + ", does not meet the filtering requirements");
-                    }
-
+        while (true) {
+            ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
+            for (ConsumerRecord<String, Car> message : messages) {
+                try {
+                    logger.info("Filter controller received "
+                            + message.value().toString());
+                    tempCar = message.value();
+                } catch (Exception e) {
+                    logger.error(String.valueOf(e));
                 }
+                // Cars filter starts
+                if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
+                    Producer<String, Car> producer = new KafkaProducer<String, Car>(propsRedirect);
+                    try {
+                        producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
+                        producer.close();
+                    } catch (Exception e) {
+                        logger.error("Resend failed " + String.valueOf(e));
+                    }
+                } else {
+                    logger.info("Sorry, these " + tempCar.toString() + ", does not meet the filtering requirements");
+                }
+
             }
         }
+
     }
 }

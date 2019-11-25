@@ -1,6 +1,5 @@
 package controller;
 
-import authentication.Authentication;
 import model.Car;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -17,12 +16,11 @@ import java.util.Properties;
 public class NewCarsSender {
 
     private final static Logger logger = LoggerFactory.getLogger(NewCarsSender.class);
-    private static boolean auth = false;
     private static String topicName;
+    private static CarService carService = new CarService();
 
     public static void main(String[] args) throws InterruptedException {
 
-        auth = Authentication.isValid();
         Properties props = new Properties();
 
         try {
@@ -34,12 +32,11 @@ public class NewCarsSender {
             logger.error(String.valueOf(e));
         }
 
-        while (auth) {
+        while (true) {
             //Creating new car
             Car car = new Car();
-            CarService carService = new CarService();
             carService.makeCar(car);
-            // Getting JMS connection from the server and starting it
+            // Getting connection from the server and starting it
             Producer<String, Car> producer = new KafkaProducer<String, Car>(props);
             try {
                 producer.send(new ProducerRecord<String, Car>(topicName, car));
