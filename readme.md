@@ -14,8 +14,6 @@ For starting the project you need to clone or download it from git.
    
    After that, you will be free in using other scripts
    
-   login "user", password "000"
-   
 #Enjoy!
  
  # <a name="author"></a>Author
