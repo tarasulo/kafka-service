@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ..
+java -cp Filter.jar:filter/target/uber/* controller.MessageFilterController

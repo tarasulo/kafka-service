@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd ..
+mvn clean package
+cp -a common/target/classes/ producer/target/classes
+rm -r producer/target/uber/common-1.0-SNAPSHOT.jar
+cp -a common/target/classes/ filter/target/classes
+rm -r filter/target/uber/common-1.0-SNAPSHOT.jar
+cp -a common/target/classes/ consumer/target/classes
+rm -r consumer/target/uber/common-1.0-SNAPSHOT.jar
+jar cfm Sender.jar producer/src/main/java/META-INF/MANIFEST.MF -C producer/target/classes .
+jar cfm Filter.jar filter/src/main/java/META-INF/MANIFEST.MF -C filter/target/classes .
+jar cfm Consumer.jar consumer/src/main/java/META-INF/MANIFEST.MF -C consumer/target/classes .

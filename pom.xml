@@ -6,7 +6,18 @@
 
     <groupId>kafka-service</groupId>
     <artifactId>kafka-car-service</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>common</module>
+        <module>producer</module>
+        <module>filter</module>
+        <module>consumer</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
