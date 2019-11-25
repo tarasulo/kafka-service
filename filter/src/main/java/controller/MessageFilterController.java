@@ -49,6 +49,7 @@ public class MessageFilterController {
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
         consumer.subscribe(Collections.singletonList(topicName));
         logger.info("Subscribed to topic " + topicName);
+        Producer<String, Car> producer = new KafkaProducer<String, Car>(propsRedirect);
 
         while (true) {
             ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
@@ -62,19 +63,15 @@ public class MessageFilterController {
                 }
                 // Cars filter starts
                 if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
-                    Producer<String, Car> producer = new KafkaProducer<String, Car>(propsRedirect);
                     try {
                         producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
-                        producer.close();
                     } catch (Exception e) {
-                        logger.error("Resend failed " + String.valueOf(e));
+                        logger.error("Resend failed " + e);
                     }
                 } else {
                     logger.info("Sorry, these " + tempCar.toString() + ", does not meet the filtering requirements");
                 }
-
             }
         }
-
     }
 }

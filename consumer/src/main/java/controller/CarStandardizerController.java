@@ -45,7 +45,6 @@ public class CarStandardizerController {
                 } catch (Exception e) {
                     logger.error(String.valueOf(e));
                 }
-
                 // Cars standardizer starts work
                 standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
                 standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
@@ -55,6 +54,5 @@ public class CarStandardizerController {
                         + " from year - " + standardizerCar.getYear());
             }
         }
-
     }
 }

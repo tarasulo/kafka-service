@@ -32,16 +32,16 @@ public class NewCarsSender {
             logger.error(String.valueOf(e));
         }
 
+        Producer<String, Car> producer = new KafkaProducer<String, Car>(props);
+
         while (true) {
             //Creating new car
             Car car = new Car();
             carService.makeCar(car);
             // Getting connection from the server and starting it
-            Producer<String, Car> producer = new KafkaProducer<String, Car>(props);
             try {
                 producer.send(new ProducerRecord<String, Car>(topicName, car));
                 logger.info("Created new car: " + car.toString());
-                producer.close();
             } catch (Exception e) {
                 logger.error("Sending failed " + e.toString());
             }
