@@ -1,0 +1,34 @@
+package dao;
+
+import model.Car;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class CarDaoJdbcImpl extends AbstractDao<Car> {
+    private static String queryAddCar = "INSERT INTO factory.car "
+            + "(brand, model, year, engine) VALUES (?, ?, ?, ?);";
+
+    private final static Logger logger = LoggerFactory.getLogger(CarDaoJdbcImpl.class);
+
+    public CarDaoJdbcImpl(Connection connection) {
+        super(connection);
+    }
+
+    public Car add(Car finalCar) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                queryAddCar, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, finalCar.getBrand());
+            statement.setString(2, finalCar.getModel());
+            statement.setInt(3, finalCar.getYear());
+            statement.setDouble(4, finalCar.getEngine());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Can't create car", e);
+        }
+        return finalCar;
+    }
+}
