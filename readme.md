@@ -14,6 +14,8 @@ For starting the project you need to clone or download it from git.
    
    After that, you will be free in using other scripts
    
+   Be attention! Check your mySql database properties in "hibernate.cfg.xml" file
+   
 #Enjoy!
  
  # <a name="author"></a>Author
