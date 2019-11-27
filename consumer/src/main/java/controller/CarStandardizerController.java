@@ -25,25 +25,10 @@ public class CarStandardizerController {
     private static Connection connection;
     private static Car standardizerCar = null;
 
-
     public static void main(String[] args) throws SQLException {
 
         Properties props = new Properties();
         Properties propsJdbc = new Properties();
-
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classloader.getResourceAsStream("configJdbc.properties");
-            propsJdbc.load(input);
-            Class.forName(propsJdbc.getProperty("jdbc.driver").toString());
-            connection =
-                    DriverManager.getConnection(propsJdbc.getProperty("db.url")
-                            + propsJdbc.getProperty("credentials"));
-        } catch (ClassNotFoundException | SQLException | IOException e) {
-            logger.error("Can't establish connection to our DB", e);
-        }
-
-        CarDaoJdbcImpl carDaoJdbc = new CarDaoJdbcImpl(connection);
 
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -54,25 +39,43 @@ public class CarStandardizerController {
             logger.error(String.valueOf(e));
         }
 
-        KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
-        consumer.subscribe(Collections.singletonList(topicName));
-        while (true) {
-            ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
-            for (ConsumerRecord<String, Car> message : messages) {
-                try {
-                    logger.info("Car standardized controller received after filtration "
-                            + message.value().toString());
-                    standardizerCar = message.value();
-                } catch (Exception e) {
-                    logger.error(String.valueOf(e));
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream input = classloader.getResourceAsStream("configJdbc.properties");
+            propsJdbc.load(input);
+            Class.forName(propsJdbc.getProperty("jdbc.driver"));
+            connection =
+                    DriverManager.getConnection(propsJdbc.getProperty("db.url")
+                            + propsJdbc.getProperty("credentials"));
+
+            CarDaoJdbcImpl carDaoJdbc = new CarDaoJdbcImpl(connection);
+
+            KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
+            consumer.subscribe(Collections.singletonList(topicName));
+            while (true) {
+                ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
+                for (ConsumerRecord<String, Car> message : messages) {
+                    try {
+                        logger.info("Car standardized controller received after filtration "
+                                + message.value().toString());
+                        standardizerCar = message.value();
+                    } catch (Exception e) {
+                        logger.error(String.valueOf(e));
+                    }
+                    // Cars standardizer starts work
+                    standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
+                    standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
+                    logger.info(" Hello Mates! we got new car: {} model: {} with engine {} from year - {} !",
+                            standardizerCar.getBrand(), standardizerCar.getModel(), standardizerCar.getEngine(),
+                            standardizerCar.getYear());
+                    carDaoJdbc.add(standardizerCar);
                 }
-                // Cars standardizer starts work
-                standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
-                standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
-                logger.info(" Hello Mates! we got new car: " + standardizerCar.getBrand()
-                        + " model: " + standardizerCar.getModel() + " with engine " + standardizerCar.getEngine()
-                        + " from year - " + standardizerCar.getYear());
-                carDaoJdbc.add(standardizerCar);
+            }
+        } catch (ClassNotFoundException | SQLException | IOException e) {
+            logger.error("Can't establish connection to our DB", e);
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
     }

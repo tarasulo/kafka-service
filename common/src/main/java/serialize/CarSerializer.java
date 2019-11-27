@@ -23,7 +23,7 @@ public class CarSerializer implements Serializer<Car> {
         try {
             retVal = objectMapper.writeValueAsString(car).getBytes();
         } catch (Exception exception) {
-            logger.error("Error in serializing object" + car + "   " + exception.toString());
+            logger.error("Error in serializing object {} {} .", car, exception);
         }
         return retVal;
     }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CarDaoJdbcImpl extends AbstractDao<Car> {
@@ -26,6 +27,10 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
             statement.setInt(3, finalCar.getYear());
             statement.setDouble(4, finalCar.getEngine());
             statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                finalCar.setId(resultSet.getLong(1));
+            }
         } catch (SQLException e) {
             logger.error("Can't create car", e);
         }

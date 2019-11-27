@@ -2,6 +2,7 @@ package model;
 
 public class Car {
 
+    private Long id;
     private String brand;
     private String model;
     private int year;
@@ -33,6 +34,14 @@ public class Car {
     }
 
     public Car() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBrand() {
