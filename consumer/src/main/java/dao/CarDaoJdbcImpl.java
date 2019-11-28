@@ -13,7 +13,7 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
     private static String queryAddCar = "INSERT INTO factory.car "
             + "(brand, model, year, engine) VALUES (?, ?, ?, ?);";
 
-    private final static Logger logger = LoggerFactory.getLogger(CarDaoJdbcImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CarDaoJdbcImpl.class);
 
     public CarDaoJdbcImpl(Connection connection) {
         super(connection);
@@ -32,7 +32,7 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
                 finalCar.setId(resultSet.getLong(1));
             }
         } catch (SQLException e) {
-            logger.error("Can't create car", e);
+            LOGGER.error("Can't create car", e);
         }
         return finalCar;
     }

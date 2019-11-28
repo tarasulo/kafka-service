@@ -19,7 +19,7 @@ import java.util.Properties;
 
 public class CarStandardizerController {
 
-    private final static Logger logger = LoggerFactory.getLogger(CarStandardizerController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CarStandardizerController.class);
 
     private static String topicName;
     private static Connection connection;
@@ -36,7 +36,7 @@ public class CarStandardizerController {
             props.load(input);
             topicName = props.getProperty("topicName2");
         } catch (IOException e) {
-            logger.error(String.valueOf(e));
+            LOGGER.error(String.valueOf(e));
         }
 
         try {
@@ -56,23 +56,23 @@ public class CarStandardizerController {
                 ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, Car> message : messages) {
                     try {
-                        logger.info("Car standardized controller received after filtration "
+                        LOGGER.info("Car standardized controller received after filtration "
                                 + message.value().toString());
                         standardizerCar = message.value();
                     } catch (Exception e) {
-                        logger.error(String.valueOf(e));
+                        LOGGER.error(String.valueOf(e));
                     }
                     // Cars standardizer starts work
                     standardizerCar.setBrand(standardizerCar.getBrand().toUpperCase());
                     standardizerCar.setModel(standardizerCar.getModel().toUpperCase());
-                    logger.info(" Hello Mates! we got new car: {} model: {} with engine {} from year - {} !",
+                    LOGGER.info(" Hello Mates! we got new car: {} model: {} with engine {} from year - {} !",
                             standardizerCar.getBrand(), standardizerCar.getModel(), standardizerCar.getEngine(),
                             standardizerCar.getYear());
                     carDaoJdbc.add(standardizerCar);
                 }
             }
         } catch (ClassNotFoundException | SQLException | IOException e) {
-            logger.error("Can't establish connection to our DB", e);
+            LOGGER.error("Can't establish connection to our DB", e);
         } finally {
             if (connection != null) {
                 connection.close();

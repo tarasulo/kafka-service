@@ -18,7 +18,7 @@ import java.util.Properties;
 
 public class MessageFilterController {
 
-    private final static Logger logger = LoggerFactory.getLogger(MessageFilterController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
     private static String topicName;
     private static String topicFilteredName;
     private static Car tempCar = null;
@@ -34,7 +34,7 @@ public class MessageFilterController {
             props.load(input);
             topicName = props.getProperty("topicName1");
         } catch (IOException e) {
-            logger.error(String.valueOf(e));
+            LOGGER.error(String.valueOf(e));
         }
 
         try {
@@ -43,33 +43,33 @@ public class MessageFilterController {
             propsRedirect.load(input);
             topicFilteredName = propsRedirect.getProperty("topicName2");
         } catch (IOException e) {
-            logger.error(String.valueOf(e));
+            LOGGER.error(String.valueOf(e));
         }
 
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
         consumer.subscribe(Collections.singletonList(topicName));
-        logger.info("Subscribed to topic " + topicName);
+        LOGGER.info("Subscribed to topic " + topicName);
         Producer<String, Car> producer = new KafkaProducer<String, Car>(propsRedirect);
 
         while (true) {
             ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord<String, Car> message : messages) {
                 try {
-                    logger.info("Filter controller received "
+                    LOGGER.info("Filter controller received "
                             + message.value().toString());
                     tempCar = message.value();
                 } catch (Exception e) {
-                    logger.error(String.valueOf(e));
+                    LOGGER.error(String.valueOf(e));
                 }
                 // Cars filter starts
                 if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
                     try {
                         producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
                     } catch (Exception e) {
-                        logger.error("Resend failed " + e);
+                        LOGGER.error("Resend failed " + e);
                     }
                 } else {
-                    logger.info("Sorry, these {} does not meet the filtering requirements ",tempCar.toString());
+                    LOGGER.info("Sorry, these {} does not meet the filtering requirements ",tempCar.toString());
                 }
             }
         }
