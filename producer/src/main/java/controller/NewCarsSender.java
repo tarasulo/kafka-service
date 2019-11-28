@@ -7,19 +7,20 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import servise.CarService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Properties;
 
 public class NewCarsSender {
 
     private final static Logger logger = LoggerFactory.getLogger(NewCarsSender.class);
     private static String topicName;
-    private static CarService carService = new CarService();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
         Properties props = new Properties();
 
@@ -35,13 +36,17 @@ public class NewCarsSender {
         Producer<String, Car> producer = new KafkaProducer<String, Car>(props);
 
         while (true) {
-            //Creating new car
             Car car = new Car();
-            carService.makeCar(car);
+            Socket socket = new Socket("localhost", 4444);
+            ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
+            os.writeObject(car);
+            ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+            Car newCar = (Car) is.readObject();
+            socket.close();
             // Getting connection from the server and starting it
             try {
-                producer.send(new ProducerRecord<String, Car>(topicName, car));
-                logger.info("Created new car: " + car.toString());
+                producer.send(new ProducerRecord<String, Car>(topicName, newCar));
+                logger.info("Created new car: " + newCar.toString());
             } catch (Exception e) {
                 logger.error("Sending failed " + e.toString());
             }

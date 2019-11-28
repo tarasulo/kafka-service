@@ -1,7 +1,10 @@
 package model;
 
-public class Car {
+import java.io.Serializable;
 
+public class Car implements Serializable {
+
+    private static final long serialVersionUID = 482935899896657947L;
     private Long id;
     private String brand;
     private String model;
