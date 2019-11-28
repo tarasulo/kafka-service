@@ -34,15 +34,10 @@ public class NewCarsSender {
         }
 
         Producer<String, Car> producer = new KafkaProducer<String, Car>(props);
-
+        Socket socket = new Socket("localhost", 4444);
         while (true) {
-            Car car = new Car();
-            Socket socket = new Socket("localhost", 4444);
-            ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
-            os.writeObject(car);
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
             Car newCar = (Car) is.readObject();
-            socket.close();
             // Getting connection from the server and starting it
             try {
                 producer.send(new ProducerRecord<String, Car>(topicName, newCar));

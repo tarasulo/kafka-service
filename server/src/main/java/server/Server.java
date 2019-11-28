@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import servise.CarService;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,16 +21,14 @@ public class Server {
         try {
             ss = new ServerSocket(port);
             logger.info("System is ready to accept the connection");
+            Socket socket = ss.accept();
             while (true) {
-                Socket socket = ss.accept();
-                ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-
-                Car car = (Car) is.readObject();
+                Car car = new Car();
                 carService.makeCar(car);
                 ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
                 os.writeObject(car);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             logger.error(e.toString());
         }
     }
