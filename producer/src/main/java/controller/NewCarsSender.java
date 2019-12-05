@@ -21,8 +21,7 @@ public class NewCarsSender {
     private static Integer port;
     private static String host;
 
-    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-
+    public static void run() throws InterruptedException, IOException, ClassNotFoundException {
         Properties props = new Properties();
         Properties socketProps = new Properties();
         try {
@@ -59,5 +58,9 @@ public class NewCarsSender {
             // We should wait for 1 sec for the next car creating
             Thread.sleep(1000);
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
+        run();
     }
 }

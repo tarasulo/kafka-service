@@ -69,7 +69,7 @@ public class MessageFilterController {
                         LOGGER.error("Resend failed " + e);
                     }
                 } else {
-                    LOGGER.info("Sorry, these {} does not meet the filtering requirements ",tempCar.toString());
+                    LOGGER.info("Sorry, these {} does not meet the filtering requirements ", tempCar.toString());
                 }
             }
         }

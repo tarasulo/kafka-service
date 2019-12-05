@@ -3,6 +3,7 @@ package dao;
 import model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.Int;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 public class CarDaoJdbcImpl extends AbstractDao<Car> {
     private static String queryAddCar = "INSERT INTO factory.car "
             + "(brand, model, year, engine) VALUES (?, ?, ?, ?);";
+    private static String queryGetById = "SELECT * FROM factory.car WHERE id = ?;";
+    private static String queryGetLast = "SELECT * FROM factory.car WHERE id = (SELECT max(id) FROM factory.car);";
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CarDaoJdbcImpl.class);
 
@@ -35,5 +38,38 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
             LOGGER.error("Can't create car", e);
         }
         return finalCar;
+    }
+
+    public Car getById(long id) {
+        try (PreparedStatement statement = connection.prepareStatement(queryGetById)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String brand = resultSet.getString("brand");
+                String model = resultSet.getString("model");
+                int year = resultSet.getInt("year");
+                Double engine = resultSet.getDouble("engine");
+                return new Car(brand, model, year, engine);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Can't get item by id " + id, e);
+        }
+        return null;
+    }
+
+    public Car getBylastId() {
+        try (PreparedStatement statement = connection.prepareStatement(queryGetLast)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String brand = resultSet.getString("brand");
+                String model = resultSet.getString("model");
+                int year = resultSet.getInt("year");
+                Double engine = resultSet.getDouble("engine");
+                return new Car(brand, model, year, engine);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Can't get last item  ", e);
+        }
+        return null;
     }
 }
