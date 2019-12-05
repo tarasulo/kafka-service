@@ -1,7 +1,11 @@
 package model;
 
-public class Car {
+import java.io.Serializable;
 
+public class Car implements Serializable {
+
+    private static final long serialVersionUID = 482935899896657947L;
+    private Long id;
     private String brand;
     private String model;
     private int year;
@@ -17,6 +21,13 @@ public class Car {
                 '}';
     }
 
+    public Car(String brand, String model, int year, double engine) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.engine = engine;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
@@ -26,6 +37,14 @@ public class Car {
     }
 
     public Car() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBrand() {

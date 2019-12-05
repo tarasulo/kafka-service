@@ -23,7 +23,7 @@ public class CarDeserializer implements Deserializer<Car> {
         try {
             newcar = mapper.readValue(car, Car.class);
         } catch (Exception exception) {
-            logger.error("Error in deserializing bytes " + exception.toString());
+            logger.error("Error in deserializing {} bytes {} .", car, exception);
         }
         return newcar;
     }

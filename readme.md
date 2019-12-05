@@ -14,7 +14,7 @@ For starting the project you need to clone or download it from git.
    
    After that, you will be free in using other scripts
    
-   login "user", password "000"
+   Be attention! Check your mySql database properties in "configJdbc.properties" file
    
 #Enjoy!
  
