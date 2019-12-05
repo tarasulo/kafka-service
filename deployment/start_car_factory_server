@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd ..
-java -cp CarFactoryServer.jar:server/target/uber/* controller.Server
+java -cp CarFactoryServer.jar:newCarsCreator/target/uber/* controller.Server

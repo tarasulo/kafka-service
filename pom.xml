@@ -14,7 +14,7 @@
         <module>producer</module>
         <module>filter</module>
         <module>consumer</module>
-        <module>server</module>
+        <module>newCarsCreator</module>
     </modules>
 
     <properties>

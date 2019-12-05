@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Properties;
 
-public class ServerTest {
+public class NewCarsCreatorTest {
     private static Integer port;
     private static String host;
     private static Car newCar = null;

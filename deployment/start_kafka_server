@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd $KAFKA_HOME
-bin/kafka-server-start.sh config/server.properties
+bin/kafka-newCarsCreator-start.sh config/newCarsCreator.properties

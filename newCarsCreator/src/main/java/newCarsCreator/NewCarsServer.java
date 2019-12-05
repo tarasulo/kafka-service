@@ -1,26 +1,20 @@
-package server;
+package newCarsCreator;
 
-import model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import servise.CarService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Properties;
 
-public class Server {
+public class NewCarsServer {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Server.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(NewCarsServer.class);
     private Integer port;
-
-    private CarService carService = new CarService();
     private ServerSocket ss = null;
 
-    public void runServer() {
+    public ServerSocket startServer() {
         Properties props = new Properties();
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -33,20 +27,9 @@ public class Server {
         try {
             ss = new ServerSocket(port);
             LOGGER.info("System is ready to accept the connection");
-            Socket socket = ss.accept();
-            while (true) {
-                Car car = new Car();
-                carService.makeCar(car);
-                ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
-                os.writeObject(car);
-            }
         } catch (IOException e) {
             LOGGER.error(e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.runServer();
+        return ss;
     }
 }
