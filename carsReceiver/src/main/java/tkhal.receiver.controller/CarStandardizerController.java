@@ -1,4 +1,4 @@
-package controller;
+package tkhal.receiver.controller;
 
 import model.Car;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -21,9 +21,11 @@ public class CarStandardizerController {
 
     public static void main(String[] args) throws SQLException {
 
+        // starting Kafka consumer
         consumer = afterFilterConsumer.startConsumer();
 
         while (true) {
+            // reading messages
             ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord<String, Car> message : messages) {
                 try {
@@ -33,7 +35,9 @@ public class CarStandardizerController {
                 } catch (Exception e) {
                     LOGGER.error(String.valueOf(e));
                 }
+                // standardizing message
                 standardizerCar = standardizer.changeCar(standardizerCar);
+                // writing message to database
                 jdbcCarsWriter.writeToDataBase(standardizerCar);
             }
         }

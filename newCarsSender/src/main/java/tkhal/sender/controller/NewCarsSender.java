@@ -1,4 +1,4 @@
-package controller;
+package tkhal.sender.controller;
 
 import model.Car;
 import org.apache.kafka.clients.producer.Producer;
@@ -15,9 +15,14 @@ public class NewCarsSender {
     private static KafkaCarsProducer kafkaCarsProducer = new KafkaCarsProducer();
 
     public static void run() throws InterruptedException, IOException, ClassNotFoundException {
+
+        // Socket client connection
         socket = socketCLient.runClient();
+
+        // KafkaProducer connection
         producer = kafkaCarsProducer.makeProducer();
         while (true) {
+            // sending new car by KafkaProducer to topic
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
             Car newCar = (Car) is.readObject();
             kafkaCarsProducer.sendCar(producer, newCar);

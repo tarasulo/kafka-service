@@ -1,4 +1,4 @@
-package controller;
+package tkhal.filter.controller;
 
 import model.Car;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,10 +22,13 @@ public class MessageFilterController {
 
     public static void main(String[] args) {
 
+        // starting new Kafka consumer
         consumer = filterKafkaConsumer.startConsumer();
+        // starting new Kafka producer
         producer = filterKafkaProducer.createProducer();
 
         while (true) {
+            // reading messages from Kafka topic
             ConsumerRecords<String, Car> messages = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord<String, Car> message : messages) {
                 try {
@@ -35,9 +38,10 @@ public class MessageFilterController {
                 } catch (Exception e) {
                     LOGGER.error(String.valueOf(e));
                 }
-                // Cars filter starts
+                // Cars filter starting work
                 tempCar = carsFilter.filter(tempCar);
                 if (tempCar != null) {
+                    // sending car by Kafka producer
                     filterKafkaProducer.sendCar(tempCar);
                 }
             }

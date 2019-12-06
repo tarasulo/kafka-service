@@ -1,4 +1,4 @@
-package newCarsCreator;
+package tkhal.cars.creator.controller;
 
 import model.Car;
 import servise.CarService;

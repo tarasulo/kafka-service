@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd ..
-java -cp Consumer.jar:consumer/target/uber/* controller.CarStandardizerController
+java -cp Consumer.jar:carsReceiver/target/uber/* tkhal.receiver.controller.CarStandardizerController

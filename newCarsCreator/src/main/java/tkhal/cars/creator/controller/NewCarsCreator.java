@@ -1,4 +1,4 @@
-package newCarsCreator;
+package tkhal.cars.creator.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +17,13 @@ public class NewCarsCreator {
     private NewCarsServer newCarsServer = new NewCarsServer();
 
     public void runServer() {
+
+        // start Socket server
         ss = newCarsServer.startServer();
         try {
             Socket socket = ss.accept();
             while (true) {
+                // creating new car
                 ObjectOutputStream os = new ObjectOutputStream(socket.getOutputStream());
                 os.writeObject(carsFactory.createCar());
             }

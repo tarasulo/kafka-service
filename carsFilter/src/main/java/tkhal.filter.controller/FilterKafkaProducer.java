@@ -1,4 +1,4 @@
-package controller;
+package tkhal.filter.controller;
 
 import model.Car;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -19,6 +19,7 @@ public class FilterKafkaProducer {
     public Producer <String, Car> createProducer() {
         Properties propsRedirect = new Properties();
 
+        //reading Kafka producer properties from config file
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             InputStream input = classloader.getResourceAsStream("configProducer.properties");
@@ -27,11 +28,15 @@ public class FilterKafkaProducer {
         } catch (IOException e) {
             LOGGER.error(String.valueOf(e));
         }
+
+        // creating new Kafka producer
         producer = new KafkaProducer<String, Car>(propsRedirect);
         return producer;
     }
 
     public void sendCar(Car tempCar) {
+
+        // Kafka producer sending car to topic
         try {
             producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
         } catch (Exception e) {

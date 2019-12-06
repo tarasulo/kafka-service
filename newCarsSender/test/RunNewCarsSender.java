@@ -1,4 +1,4 @@
-import controller.NewCarsSender;
+import tkhal.sender.controller.NewCarsSender;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package controller;
+package tkhal.sender.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,8 @@ public class SocketCLient {
     private Socket socket;
 
     public Socket runClient() throws IOException {
+
+        // reading Socket properties from config file
         Properties socketProps = new Properties();
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();

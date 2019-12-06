@@ -1,4 +1,4 @@
-package newCarsCreator;
+package tkhal.cars.creator.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,8 @@ public class NewCarsServer {
 
     public ServerSocket startServer() {
         Properties props = new Properties();
+
+        //reading socket properties from file
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             InputStream input = classloader.getResourceAsStream("configSocket.properties");
@@ -24,6 +26,7 @@ public class NewCarsServer {
         } catch (IOException e) {
             LOGGER.error(String.valueOf(e));
         }
+        // starting ServerSocket
         try {
             ss = new ServerSocket(port);
             LOGGER.info("System is ready to accept the connection");

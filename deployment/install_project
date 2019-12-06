@@ -2,15 +2,15 @@
 
 cd ..
 mvn clean package
-cp -a common/target/classes/ producer/target/classes
-rm -r producer/target/uber/common-1.0-SNAPSHOT.jar
-cp -a common/target/classes/ filter/target/classes
-rm -r filter/target/uber/common-1.0-SNAPSHOT.jar
-cp -a common/target/classes/ consumer/target/classes
-rm -r consumer/target/uber/common-1.0-SNAPSHOT.jar
+cp -a common/target/classes/ newCarsSender/target/classes
+rm -r newCarsSender/target/uber/common-1.0-SNAPSHOT.jar
+cp -a common/target/classes/ carsFilter/target/classes
+rm -r carsFilter/target/uber/common-1.0-SNAPSHOT.jar
+cp -a common/target/classes/ carsReceiver/target/classes
+rm -r carsReceiver/target/uber/common-1.0-SNAPSHOT.jar
 cp -a common/target/classes/ newCarsCreator/target/classes
 rm -r newCarsCreator/target/uber/common-1.0-SNAPSHOT.jar
-jar cfm Sender.jar producer/src/main/java/META-INF/MANIFEST.MF -C producer/target/classes .
-jar cfm Filter.jar filter/src/main/java/META-INF/MANIFEST.MF -C filter/target/classes .
-jar cfm Consumer.jar consumer/src/main/java/META-INF/MANIFEST.MF -C consumer/target/classes .
+jar cfm Sender.jar newCarsSender/src/main/java/META-INF/MANIFEST.MF -C newCarsSender/target/classes .
+jar cfm Filter.jar carsFilter/src/main/java/META-INF/MANIFEST.MF -C carsFilter/target/classes .
+jar cfm Consumer.jar carsReceiver/src/main/java/META-INF/MANIFEST.MF -C carsReceiver/target/classes .
 jar cfm CarFactoryServer.jar newCarsCreator/src/main/java/META-INF/MANIFEST.MF -C newCarsCreator/target/classes .

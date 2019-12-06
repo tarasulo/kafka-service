@@ -1,4 +1,4 @@
-package controller;
+package tkhal.receiver.controller;
 
 import dao.CarDaoJdbcImpl;
 import model.Car;
@@ -18,6 +18,8 @@ public class JdbcCarsWriter {
     private Connection connection;
 
     public void writeToDataBase(Car car) throws SQLException {
+
+        // reading properties for Jdbc connection from config file
         Properties propsJdbc = new Properties();
 
         try {
@@ -28,8 +30,9 @@ public class JdbcCarsWriter {
             connection =
                     DriverManager.getConnection(propsJdbc.getProperty("db.url")
                             + propsJdbc.getProperty("credentials"));
-
+            // starting Jdbc connection
             CarDaoJdbcImpl carDaoJdbc = new CarDaoJdbcImpl(connection);
+            // writing car to database
             carDaoJdbc.add(car);
         } catch (ClassNotFoundException | SQLException | IOException e) {
             LOGGER.error("Can't establish connection to our DB", e);
