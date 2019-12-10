@@ -7,9 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-
+/**
+ * @author Taras Khalak
+ */
 public class CarSerializer implements Serializer<Car> {
-
+    /**
+     * This is a class for serializing objects
+     * it's needed for Kafka Producer correctly sends cars
+     */
     private final static Logger logger = LoggerFactory.getLogger(CarSerializer.class);
 
     @Override

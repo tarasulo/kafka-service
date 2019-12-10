@@ -6,28 +6,37 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reader.ReadPropsFromFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * @author Taras Khalak
+ */
 public class FilterKafkaProducer {
+    /**
+     * This is the class for creating Kafka Producer
+     */
     private String topicFilteredName;
     private final static Logger LOGGER = LoggerFactory.getLogger(FilterKafkaProducer.class);
-    private Producer <String, Car> producer;
+    private Producer<String, Car> producer;
+    private ReadPropsFromFile propsFromFile;
 
-    public Producer <String, Car> createProducer() {
-        Properties propsRedirect = new Properties();
+    public FilterKafkaProducer() {
+        propsFromFile = new ReadPropsFromFile();
+    }
+
+    public Producer<String, Car> createProducer() {
+        /**
+         * This is the method which reading properties from the file,
+         * creating Kafka Producer
+         * and @return producer
+         */
+        new FilterKafkaProducer();
 
         //reading Kafka producer properties from config file
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classloader.getResourceAsStream("configProducer.properties");
-            propsRedirect.load(input);
-            topicFilteredName = propsRedirect.getProperty("topicName2");
-        } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
-        }
+        Properties propsRedirect = propsFromFile.read("configProducer.properties");
+        topicFilteredName = propsRedirect.getProperty("topicName2");
 
         // creating new Kafka producer
         producer = new KafkaProducer<String, Car>(propsRedirect);
@@ -35,8 +44,10 @@ public class FilterKafkaProducer {
     }
 
     public void sendCar(Car tempCar) {
-
-        // Kafka producer sending car to topic
+        /**
+         * This is the method which sending car
+         * to the topic
+         */
         try {
             producer.send(new ProducerRecord<String, Car>(topicFilteredName, tempCar));
         } catch (Exception e) {

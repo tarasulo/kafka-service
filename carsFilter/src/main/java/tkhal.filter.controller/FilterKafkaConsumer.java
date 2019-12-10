@@ -4,28 +4,35 @@ import model.Car;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reader.ReadPropsFromFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
-
+/**
+ * @author Taras Khalak
+ */
 public class FilterKafkaConsumer {
+    /**
+     * This is the class for creating Kafka Consumer
+     */
     private static String topicName;
     private final Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
+    private ReadPropsFromFile propsFromFile;
+
+    public FilterKafkaConsumer() {
+       propsFromFile = new ReadPropsFromFile();
+    }
 
     public KafkaConsumer<String, Car> startConsumer() {
-        Properties props = new Properties();
-
-        //reading Kafka consumer properties from config file
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classloader.getResourceAsStream("configConsumer.properties");
-            props.load(input);
-            topicName = props.getProperty("topicName1");
-        } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
-        }
+        /**
+         * This is the method which reading properties from the file,
+         * creating Kafka Consumer
+         * and @return consumer
+         */
+        new FilterKafkaConsumer();
+        // reading properties from config file
+        Properties props = propsFromFile.read("configConsumer.properties");
+        topicName = props.getProperty("topicName1");
 
         //creating new Kafka consumer
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);

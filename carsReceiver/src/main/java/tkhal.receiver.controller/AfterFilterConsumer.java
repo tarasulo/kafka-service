@@ -2,31 +2,37 @@ package tkhal.receiver.controller;
 
 import model.Car;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import reader.ReadPropsFromFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
-
+/**
+ * @author Taras Khalak
+ */
 public class AfterFilterConsumer {
-
+    /**
+     * This is class for reading properties from file,
+     * making Kafka Consumer
+     * and getting cars from topic
+     */
     private String topicName;
-    private final static Logger LOGGER = LoggerFactory.getLogger(CarStandardizerController.class);
+    private ReadPropsFromFile readPropsFromFile;
+
+    public AfterFilterConsumer() {
+        readPropsFromFile = new ReadPropsFromFile();
+    }
 
     public KafkaConsumer<String, Car> startConsumer() {
+        /**
+         * This is the method which reads properties from the file,
+         * makes Kafka Consumer,
+         * and gets cars from the topic
+         */
+        new AfterFilterConsumer();
 
         // reading Kafka consumer properties from config file
-        Properties props = new Properties();
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classloader.getResourceAsStream("configConsumer.properties");
-            props.load(input);
-            topicName = props.getProperty("topicName2");
-        } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
-        }
+        Properties props = readPropsFromFile.read("configConsumer.properties");
+        topicName = props.getProperty("topicName2");
 
         // creating Kafka consumer
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);

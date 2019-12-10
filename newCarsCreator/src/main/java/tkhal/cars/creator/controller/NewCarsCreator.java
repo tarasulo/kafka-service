@@ -8,16 +8,29 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
+/**
+ * @author Taras Khalak
+ */
 public class NewCarsCreator {
-
+    /**
+     * This is application for running socket server
+     * and creating new objects type car
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(NewCarsCreator.class);
-    private CarsFactory carsFactory = new CarsFactory();
+    private CarsFactory carsFactory;
     private ServerSocket ss = null;
-    private NewCarsServer newCarsServer = new NewCarsServer();
+    private NewCarsServer newCarsServer;
+
+    public NewCarsCreator() {
+        this.carsFactory = new CarsFactory();
+        this.newCarsServer = new NewCarsServer();
+    }
 
     public void runServer() {
-
+        /**
+         * This method starting Socket Server
+         * and creating new cars
+         */
         // start Socket server
         ss = newCarsServer.startServer();
         try {
@@ -33,6 +46,10 @@ public class NewCarsCreator {
     }
 
     public static void main(String[] args) {
+        /**
+         * This is the main method
+         * which start running the class
+         */
         NewCarsCreator newCarsCreator = new NewCarsCreator();
         newCarsCreator.runServer();
     }

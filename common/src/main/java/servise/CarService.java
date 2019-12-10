@@ -4,13 +4,17 @@ import model.Car;
 
 import java.util.Random;
 
+/**
+ * @author Taras Khalak
+ */
 public class CarService extends Car {
-
+    /**
+     * This is a service class for object types car
+     */
     private String brand;
     private String model;
     private int year;
     private double engine;
-    private Car car = new Car();
     private String brands[] = {"audi", "bmv", "mazda", "mercedes", "opel", "honda"};
     private String models[] = {"cr-v", "combo", "x5", "vito", "q6"};
     private int years[] = {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,

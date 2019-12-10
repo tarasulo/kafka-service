@@ -1,4 +1,4 @@
-import controller.MessageFilterController;
+import tkhal.filter.controller.MessageFilterController;
 
 public class RunFilter extends Thread {
     String[] args = new String[] {"test"};

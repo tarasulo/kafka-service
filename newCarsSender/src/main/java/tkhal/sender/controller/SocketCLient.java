@@ -1,33 +1,37 @@
 package tkhal.sender.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import reader.ReadPropsFromFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.Socket;
 import java.util.Properties;
-
+/**
+ * @author Taras Khalak
+ */
 public class SocketCLient {
-
+    /**
+     * This is a class for creating and running socket client
+     */
     private Integer port;
     private String host;
-    private final static Logger LOGGER = LoggerFactory.getLogger(SocketCLient.class);
     private Socket socket;
+    private ReadPropsFromFile readPropsFromFile;
+
+    public SocketCLient() {
+        readPropsFromFile = new ReadPropsFromFile();
+    }
 
     public Socket runClient() throws IOException {
-
+        /**
+         * This method reads properties from file
+         * and creating Socket Client
+         */
+        new SocketCLient();
         // reading Socket properties from config file
-        Properties socketProps = new Properties();
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classloader.getResourceAsStream("configSocket.properties");
-            socketProps.load(input);
-            port = Integer.parseInt(socketProps.getProperty("port"));
-            host = socketProps.getProperty("host");
-        } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
-        }
+        Properties socketProps = readPropsFromFile.read("configSocket.properties");
+        port = Integer.parseInt(socketProps.getProperty("port"));
+        host = socketProps.getProperty("host");
+        // socket connection
         socket = new Socket(host, port);
         return socket;
     }

@@ -10,18 +10,34 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
+/**
+ * @author Taras Khalak
+ */
 public class MessageFilterController {
-
+    /**
+     * This is application for reading messages from Kafka topic
+     * filtration them, and sending to new Kafka topic
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
     private static Car tempCar = null;
     private static KafkaConsumer<String, Car> consumer;
     private static Producer<String, Car> producer;
-    private static FilterKafkaConsumer filterKafkaConsumer = new FilterKafkaConsumer();
-    private static FilterKafkaProducer filterKafkaProducer = new FilterKafkaProducer();
-    private static CarsFilter carsFilter = new CarsFilter();
+    private static FilterKafkaConsumer filterKafkaConsumer;
+    private static FilterKafkaProducer filterKafkaProducer;
+    private static CarsFilter carsFilter;
+
+    public MessageFilterController() {
+        filterKafkaConsumer = new FilterKafkaConsumer();
+        filterKafkaProducer = new FilterKafkaProducer();
+        carsFilter = new CarsFilter();
+    }
 
     public static void main(String[] args) {
-
+        /**
+         * This is the main method which getting cars, filtration them,
+         * and writing to the new Kafka topic
+         */
+        new MessageFilterController();
         // starting new Kafka consumer
         consumer = filterKafkaConsumer.startConsumer();
         // starting new Kafka producer
@@ -39,8 +55,7 @@ public class MessageFilterController {
                     LOGGER.error(String.valueOf(e));
                 }
                 // Cars filter starting work
-                tempCar = carsFilter.filter(tempCar);
-                if (tempCar != null) {
+                if (carsFilter.filter(tempCar)) {
                     // sending car by Kafka producer
                     filterKafkaProducer.sendCar(tempCar);
                 }

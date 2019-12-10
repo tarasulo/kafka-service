@@ -1,4 +1,4 @@
-import controller.CarStandardizerController;
+import tkhal.receiver.controller.CarStandardizerController;
 
 import java.sql.SQLException;
 
