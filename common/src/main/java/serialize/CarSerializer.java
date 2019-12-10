@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * CarSerializer is a class for serializing objects
+ * it's needed for Kafka Producer correctly sends cars
+ */
 public class CarSerializer implements Serializer<Car> {
 
     private final static Logger logger = LoggerFactory.getLogger(CarSerializer.class);

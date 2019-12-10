@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: tkhal.sender.controller.NewCarsSender
+Class-Path: .
+
