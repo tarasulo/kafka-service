@@ -9,14 +9,12 @@ import org.slf4j.LoggerFactory;
 import reader.ReadPropsFromFile;
 
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * KafkaCarsProducer is a class for creating Kafka Producer
+ * and sending new cars to topic
  */
 public class KafkaCarsProducer {
-    /**
-     * This is a class for creating Kafka Producer
-     * and sending new cars to topic
-     */
     private String topicName;
     private final Logger LOGGER = LoggerFactory.getLogger(NewCarsSender.class);
     private ReadPropsFromFile readPropsFromFile;
@@ -25,11 +23,11 @@ public class KafkaCarsProducer {
         readPropsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * makeProducer() is a method reads properties from file
+     * and creating Kafka Producer
+     */
     public Producer<String, Car> makeProducer() {
-        /**
-         * This method reads properties from file
-         * and creating Kafka Producer
-         */
         new KafkaCarsProducer();
         //reading producer properties from file
         Properties props = readPropsFromFile.read("configProducer.properties");
@@ -40,10 +38,10 @@ public class KafkaCarsProducer {
         return producer;
     }
 
+    /**
+     * sendCar method sending cars to topic
+     */
     public void sendCar(Producer<String, Car> producer, Car car) {
-        /**
-         * This method sending cars to topic
-         */
         // KafkaProducer sending car to topic
         try {
             producer.send(new ProducerRecord<String, Car>(topicName, car));

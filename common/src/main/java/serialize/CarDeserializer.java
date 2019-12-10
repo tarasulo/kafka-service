@@ -7,14 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+
 /**
- * @author Taras Khalak
+ * CarDeserializer is a class for deserialize objects
+ * it's needed for Kafka Consumer correctly getting cars
  */
 public class CarDeserializer implements Deserializer<Car> {
-    /**
-     * This is a class for deserialize objects
-     * it's needed for Kafka Consumer correctly getting cars
-     */
+
     private final static Logger logger = LoggerFactory.getLogger(CarSerializer.class);
 
     @Override

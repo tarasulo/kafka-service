@@ -2,19 +2,18 @@ package tkhal.cars.creator.controller;
 
 import model.Car;
 import servise.CarService;
+
 /**
- * @author Taras Khalak
+ * CarsFactory is a class for creating new cars
  */
 public class CarsFactory {
-    /**
-     * This is a class for creating new cars
-     */
-    private CarService carService = new CarService();
 
+    private CarService carService = new CarService();
+    /**
+     * createCar() is a method creates
+     * and @return new car
+     */
     public Car createCar() {
-        /**
-         * This method creates new cars
-         */
         Car car = new Car();
         carService.makeCar(car);
         return car;

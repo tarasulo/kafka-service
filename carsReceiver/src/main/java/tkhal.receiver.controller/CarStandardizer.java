@@ -5,21 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Taras Khalak
+ * CarStandardizer is a class for reading cars
+ * and returning standardized cars
  */
 public class CarStandardizer {
-    /**
-     * This is class for reading cars
-     * and returning standardized cars
-     */
     private final Logger LOGGER = LoggerFactory.getLogger(CarStandardizer.class);
 
+    /**
+     * This is the method which
+     * standardized car
+     * and @return car
+     */
     public Car changeCar(Car car) {
-        /**
-         * This is the method which
-         * standardized car and @return car
-         */
-
         // standardizing cars parameters
         car.setBrand(car.getBrand().toUpperCase());
         car.setModel(car.getModel().toUpperCase());

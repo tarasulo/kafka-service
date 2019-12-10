@@ -11,12 +11,9 @@ import reader.ReadPropsFromFile;
 import java.util.Properties;
 
 /**
- * @author Taras Khalak
+ * This is the class for creating Kafka Producer
  */
 public class FilterKafkaProducer {
-    /**
-     * This is the class for creating Kafka Producer
-     */
     private String topicFilteredName;
     private final static Logger LOGGER = LoggerFactory.getLogger(FilterKafkaProducer.class);
     private Producer<String, Car> producer;
@@ -26,14 +23,14 @@ public class FilterKafkaProducer {
         propsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * This is the method which reading properties from the file,
+     * creating Kafka Producer
+     * and @return producer
+     */
     public Producer<String, Car> createProducer() {
-        /**
-         * This is the method which reading properties from the file,
-         * creating Kafka Producer
-         * and @return producer
-         */
-        new FilterKafkaProducer();
 
+        new FilterKafkaProducer();
         //reading Kafka producer properties from config file
         Properties propsRedirect = propsFromFile.read("configProducer.properties");
         topicFilteredName = propsRedirect.getProperty("topicName2");

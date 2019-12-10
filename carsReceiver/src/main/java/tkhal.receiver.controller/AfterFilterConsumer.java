@@ -6,15 +6,13 @@ import reader.ReadPropsFromFile;
 
 import java.util.Collections;
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * AfterFilterConsumer is a class for reading properties from file,
+ * making Kafka Consumer
+ * and getting cars from topic
  */
 public class AfterFilterConsumer {
-    /**
-     * This is class for reading properties from file,
-     * making Kafka Consumer
-     * and getting cars from topic
-     */
     private String topicName;
     private ReadPropsFromFile readPropsFromFile;
 
@@ -22,12 +20,12 @@ public class AfterFilterConsumer {
         readPropsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * startConsumer() is a method which reads properties from the file,
+     * makes Kafka Consumer,
+     * and gets cars from the topic
+     */
     public KafkaConsumer<String, Car> startConsumer() {
-        /**
-         * This is the method which reads properties from the file,
-         * makes Kafka Consumer,
-         * and gets cars from the topic
-         */
         new AfterFilterConsumer();
 
         // reading Kafka consumer properties from config file

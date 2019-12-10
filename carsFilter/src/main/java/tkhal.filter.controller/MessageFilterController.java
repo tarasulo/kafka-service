@@ -11,13 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 
 /**
- * @author Taras Khalak
+ * This is application for reading messages from Kafka topic
+ * filtration them, and sending to new Kafka topic
  */
 public class MessageFilterController {
-    /**
-     * This is application for reading messages from Kafka topic
-     * filtration them, and sending to new Kafka topic
-     */
     private final static Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
     private static Car tempCar = null;
     private static KafkaConsumer<String, Car> consumer;
@@ -32,11 +29,12 @@ public class MessageFilterController {
         carsFilter = new CarsFilter();
     }
 
+    /**
+     * This is the main method which getting cars, filtration them,
+     * and writing to the new Kafka topic
+     */
     public static void main(String[] args) {
-        /**
-         * This is the main method which getting cars, filtration them,
-         * and writing to the new Kafka topic
-         */
+
         new MessageFilterController();
         // starting new Kafka consumer
         consumer = filterKafkaConsumer.startConsumer();

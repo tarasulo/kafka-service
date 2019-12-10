@@ -5,19 +5,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Taras Khalak
+ * CarsFilter class for filtering cars
  */
 public class CarsFilter {
-    /**
-     * This is the class for filtering cars
-     */
+
     private final static Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
 
+    /**
+     * This is the method which filtering cars
+     * and @return true after success
+     */
     public Boolean filter(Car tempCar) {
-        /**
-         * This is the method which filtering cars
-         * and @return true after success
-         */
         if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
             return true;
         } else {

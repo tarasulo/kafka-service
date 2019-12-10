@@ -11,13 +11,11 @@ import java.sql.SQLException;
 import java.time.Duration;
 
 /**
- * @author Taras Khalak
+ * CarStandardizerController is an application for reading messages from Kafka topic
+ * after filtration, then standardize car and writing to database
  */
 public class CarStandardizerController {
-    /**
-     * This is application for reading messages from Kafka topic
-     * after filtration, then standardize car and writing to database
-     */
+
     private final static Logger LOGGER = LoggerFactory.getLogger(CarStandardizerController.class);
     private static Car standardizerCar = null;
     private static AfterFilterConsumer afterFilterConsumer;
@@ -31,13 +29,12 @@ public class CarStandardizerController {
         standardizer = new CarStandardizer();
     }
 
+    /**
+     * This is the main method which getting cars, standardize,
+     * and writing them to database
+     */
     public static void main(String[] args) throws SQLException {
-        /**
-         * This is the main method which getting cars, standardize,
-         * and writing them to database
-         */
         new CarStandardizerController();
-
         // starting Kafka consumer
         consumer = afterFilterConsumer.startConsumer();
 

@@ -9,13 +9,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * @author Taras Khalak
+ * NewCarsCreator is a program for running socket server
+ * and creating new objects type car
  */
 public class NewCarsCreator {
-    /**
-     * This is application for running socket server
-     * and creating new objects type car
-     */
+
     private final static Logger LOGGER = LoggerFactory.getLogger(NewCarsCreator.class);
     private CarsFactory carsFactory;
     private ServerSocket ss = null;
@@ -26,11 +24,11 @@ public class NewCarsCreator {
         this.newCarsServer = new NewCarsServer();
     }
 
+    /**
+     * runServer() is a method starting Socket Server
+     * and creating new cars
+     */
     public void runServer() {
-        /**
-         * This method starting Socket Server
-         * and creating new cars
-         */
         // start Socket server
         ss = newCarsServer.startServer();
         try {
@@ -45,11 +43,11 @@ public class NewCarsCreator {
         }
     }
 
+    /**
+     * This is the main method
+     * which start running the class
+     */
     public static void main(String[] args) {
-        /**
-         * This is the main method
-         * which start running the class
-         */
         NewCarsCreator newCarsCreator = new NewCarsCreator();
         newCarsCreator.runServer();
     }

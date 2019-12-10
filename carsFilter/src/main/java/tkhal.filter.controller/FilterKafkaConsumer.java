@@ -8,27 +8,25 @@ import reader.ReadPropsFromFile;
 
 import java.util.Collections;
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * FilterKafkaConsumer class for creating Kafka Consumer
  */
 public class FilterKafkaConsumer {
-    /**
-     * This is the class for creating Kafka Consumer
-     */
     private static String topicName;
     private final Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
     private ReadPropsFromFile propsFromFile;
 
     public FilterKafkaConsumer() {
-       propsFromFile = new ReadPropsFromFile();
+        propsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * startConsumer is a method which reading properties from the file,
+     * creating Kafka Consumer
+     * and @return consumer
+     */
     public KafkaConsumer<String, Car> startConsumer() {
-        /**
-         * This is the method which reading properties from the file,
-         * creating Kafka Consumer
-         * and @return consumer
-         */
         new FilterKafkaConsumer();
         // reading properties from config file
         Properties props = propsFromFile.read("configConsumer.properties");

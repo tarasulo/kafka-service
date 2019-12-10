@@ -6,20 +6,19 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * ReadPropsFromFile is a class for reading properties from file
  */
 public class ReadPropsFromFile {
-    /**
-     * This is a class for reading properties from file
-     */
+
     private final Logger LOGGER = LoggerFactory.getLogger(ReadPropsFromFile.class);
 
+    /**
+     * This is the method which reading properties from the file
+     * and @return properties
+     */
     public Properties read(String fileName) {
-        /**
-         * This is the method which reading properties from the file
-         * and @return properties
-         */
         Properties props = new Properties();
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();

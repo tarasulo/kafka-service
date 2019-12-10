@@ -10,14 +10,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * JdbcCarsWriter is a class for connection to database
+ * and writing cars
  */
 public class JdbcCarsWriter {
-    /**
-     * This is class for connection to database
-     * and writing cars
-     */
     private final static Logger LOGGER = LoggerFactory.getLogger(CarStandardizerController.class);
     private Connection connection;
     private ReadPropsFromFile readPropsFromFile;
@@ -26,12 +24,13 @@ public class JdbcCarsWriter {
         readPropsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * writeToDataBase() is a method which reading properties from file,
+     * making connection to database
+     * and writing car from arguments to database
+     */
     public void writeToDataBase(Car car) throws SQLException {
-        /**
-         * This is the method which reading properties from file,
-         * making connection to database
-         * and writing cars
-         */
+
         new JdbcCarsWriter();
 
         // reading properties for Jdbc connection from config file

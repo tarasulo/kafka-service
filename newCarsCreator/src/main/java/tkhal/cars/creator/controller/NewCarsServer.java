@@ -7,13 +7,12 @@ import reader.ReadPropsFromFile;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Properties;
+
 /**
- * @author Taras Khalak
+ * NewCarsServer is a class for creating socket server
  */
 public class NewCarsServer {
-    /**
-     * This is a class for creating socket server
-     */
+
     private final static Logger LOGGER = LoggerFactory.getLogger(NewCarsServer.class);
     private Integer port;
     private ServerSocket ss = null;
@@ -23,11 +22,11 @@ public class NewCarsServer {
         readPropsFromFile = new ReadPropsFromFile();
     }
 
+    /**
+     * startServer() is a method reads properties from file
+     * and creating Socket Server
+     */
     public ServerSocket startServer() {
-        /**
-         * This method reads properties from file
-         * and creating Socket Server
-         */
         new NewCarsServer();
         //reading socket properties from file
         Properties props = readPropsFromFile.read("configSocket.properties");

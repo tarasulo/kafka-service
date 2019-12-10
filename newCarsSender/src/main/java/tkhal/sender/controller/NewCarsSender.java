@@ -8,13 +8,10 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 /**
- * @author Taras Khalak
+ * NewCarsSender is an application for reading messages from Socket Server
+ * and sending them to topic by Kafka Producer
  */
 public class NewCarsSender {
-    /**
-     * This is application for reading messages from Socket Server
-     * and sending them to topic by Kafka Producer
-     */
     private static Socket socket;
     private static SocketCLient socketCLient;
     private static Producer<String, Car> producer;
@@ -25,11 +22,11 @@ public class NewCarsSender {
         kafkaCarsProducer = new KafkaCarsProducer();
     }
 
+    /**
+     * This is the main method which getting cars from Socket Server
+     * and sending them to topic by Kafka Producer
+     */
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-        /**
-         * This is the main method which getting cars from Socket Server
-         * and sending them to topic by Kafka Producer
-         */
         new NewCarsSender();
         // Socket client connection
         socket = socketCLient.runClient();

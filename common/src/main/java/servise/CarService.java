@@ -5,12 +5,10 @@ import model.Car;
 import java.util.Random;
 
 /**
- * @author Taras Khalak
+ * CarService is a service class for object types car
  */
 public class CarService extends Car {
-    /**
-     * This is a service class for object types car
-     */
+
     private String brand;
     private String model;
     private int year;

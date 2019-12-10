@@ -8,14 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
- * @author Taras Khalak
+ * CarDaoJdbcImpl is a class for connection to database
+ * object type car
  */
 public class CarDaoJdbcImpl extends AbstractDao<Car> {
-    /**
-     * This is class for connection to database
-     * object type car
-     */
+
     private static String queryAddCar = "INSERT INTO factory.car "
             + "(brand, model, year, engine) VALUES (?, ?, ?, ?);";
     private static String queryGetById = "SELECT * FROM factory.car WHERE id = ?;";
@@ -27,10 +26,12 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
         super(connection);
     }
 
+    /**
+     * This method writing car to database
+     *
+     * @return car
+     */
     public Car add(Car finalCar) {
-        /**
-         * This method writing car to database
-         */
         try (PreparedStatement statement = connection.prepareStatement(
                 queryAddCar, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, finalCar.getBrand());
@@ -48,10 +49,12 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
         return finalCar;
     }
 
+    /**
+     * This method reading car from database by cars id
+     *
+     * @return car
+     */
     public Car getById(long id) {
-        /**
-         * This method reading car from database by cars id
-         */
         try (PreparedStatement statement = connection.prepareStatement(queryGetById)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -68,10 +71,11 @@ public class CarDaoJdbcImpl extends AbstractDao<Car> {
         return null;
     }
 
+    /**
+     * This method getting last car in database
+     * @return car
+     */
     public Car getBylastId() {
-        /**
-         * This method getting last car in database
-         */
         try (PreparedStatement statement = connection.prepareStatement(queryGetLast)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
