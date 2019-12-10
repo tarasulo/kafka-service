@@ -30,12 +30,10 @@ public class MessageFilterController {
     }
 
     /**
-     * This is the main method which getting cars, filtration them,
+     * filteredCar() is a method which getting cars, filtration them,
      * and writing to the new Kafka topic
      */
-    public static void main(String[] args) {
-
-        new MessageFilterController();
+    public void filteredCar() {
         // starting new Kafka consumer
         consumer = filterKafkaConsumer.startConsumer();
         // starting new Kafka producer
@@ -59,5 +57,14 @@ public class MessageFilterController {
                 }
             }
         }
+    }
+
+    /**
+     * This is the main method which getting cars, filtration them,
+     * and writing to the new Kafka topic
+     */
+    public static void main(String[] args) {
+        MessageFilterController messageFilterController = new MessageFilterController();
+        messageFilterController.filteredCar();
     }
 }

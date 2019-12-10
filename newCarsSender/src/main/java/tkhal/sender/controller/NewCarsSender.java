@@ -23,11 +23,10 @@ public class NewCarsSender {
     }
 
     /**
-     * This is the main method which getting cars from Socket Server
+     * sendCar() is a method which getting cars from Socket Server
      * and sending them to topic by Kafka Producer
      */
-    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-        new NewCarsSender();
+    public void sendCar() throws InterruptedException, IOException, ClassNotFoundException {
         // Socket client connection
         socket = socketCLient.runClient();
 
@@ -41,5 +40,14 @@ public class NewCarsSender {
             // We should wait for 1 sec for the next car creating
             Thread.sleep(1000);
         }
+    }
+
+    /**
+     * This is the main method which getting cars from Socket Server
+     * and sending them to topic by Kafka Producer
+     */
+    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
+        NewCarsSender newCarsSender = new NewCarsSender();
+        newCarsSender.sendCar();
     }
 }

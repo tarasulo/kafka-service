@@ -30,11 +30,10 @@ public class CarStandardizerController {
     }
 
     /**
-     * This is the main method which getting cars, standardize,
+     * finalizedCar() is a method which getting cars, standardize,
      * and writing them to database
      */
-    public static void main(String[] args) throws SQLException {
-        new CarStandardizerController();
+    public void finalizedCar() throws SQLException {
         // starting Kafka consumer
         consumer = afterFilterConsumer.startConsumer();
 
@@ -55,5 +54,14 @@ public class CarStandardizerController {
                 jdbcCarsWriter.writeToDataBase(standardizerCar);
             }
         }
+    }
+
+    /**
+     * This is the main method which getting cars, standardize,
+     * and writing them to database
+     */
+    public static void main(String[] args) throws SQLException {
+        CarStandardizerController carStandardizerController = new CarStandardizerController();
+        carStandardizerController.finalizedCar();
     }
 }
