@@ -15,7 +15,7 @@ public class CarsFilter {
      * This is the method which filtering cars
      * and @return true after success
      */
-    public Boolean filter(Car tempCar) {
+    public boolean filter(Car tempCar) {
         if (tempCar.getEngine() > 2.0 & tempCar.getYear() > 2000) {
             return true;
         } else {
