@@ -6,7 +6,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reader.ReadPropsFromFile;
 
 import java.util.Properties;
 
@@ -15,12 +14,10 @@ import java.util.Properties;
  * and sending new cars to topic
  */
 public class KafkaCarsProducer {
-    private String topicName;
+    private String topicName = "Topic1";
     private final Logger LOGGER = LoggerFactory.getLogger(NewCarsSender.class);
-    private ReadPropsFromFile readPropsFromFile;
 
     public KafkaCarsProducer() {
-        readPropsFromFile = new ReadPropsFromFile();
     }
 
     /**
@@ -30,8 +27,10 @@ public class KafkaCarsProducer {
     public Producer<String, Car> makeProducer() {
         new KafkaCarsProducer();
         //reading producer properties from file
-        Properties props = readPropsFromFile.read("configProducer.properties");
-        topicName = props.getProperty("topicName1");
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "host.docker.internal:9092");
+        props.put("key.serializer", "serialize.CarSerializer");
+        props.put("value.serializer", "serialize.CarSerializer");
 
         // starting KafkaProducer
         Producer<String, Car> producer = new KafkaProducer<String, Car>(props);

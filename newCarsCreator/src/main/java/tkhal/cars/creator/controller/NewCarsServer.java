@@ -2,11 +2,9 @@ package tkhal.cars.creator.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reader.ReadPropsFromFile;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.Properties;
 
 /**
  * NewCarsServer is a class for creating socket server
@@ -14,23 +12,17 @@ import java.util.Properties;
 public class NewCarsServer {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(NewCarsServer.class);
-    private Integer port;
+    private Integer port = Integer.valueOf(System.getenv("PORT"));
     private ServerSocket ss = null;
-    private ReadPropsFromFile readPropsFromFile;
 
     public NewCarsServer() {
-        readPropsFromFile = new ReadPropsFromFile();
     }
 
     /**
-     * startServer() is a method reads properties from file
-     * and creating Socket Server
+     * startServer() is a method creating Socket Server
      */
     public ServerSocket startServer() {
         new NewCarsServer();
-        //reading socket properties from file
-        Properties props = readPropsFromFile.read("configSocket.properties");
-        port = Integer.parseInt(props.getProperty("port"));
 
         // starting ServerSocket
         try {

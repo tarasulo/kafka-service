@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker-compose down
+docker rmi image_consumer image_filter image_car_sender image_car_server -f

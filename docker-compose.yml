@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  newCarsCreator:
+    build: newCarsCreator/
+    image: image_car_server
+    environment:
+      - PORT=4444
+    expose:
+      - "4444"
+  newCarsSender:
+    build: newCarsSender/
+    image: image_car_sender
+    environment:
+      - PORT=4444
+      - SERVER_HOST=newCarsCreator
+  carsFilter:
+    build: carsFilter/
+    image: image_filter
+  carsReceiver:
+    build: carsReceiver/
+    image: image_consumer

@@ -4,7 +4,6 @@ import model.Car;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reader.ReadPropsFromFile;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -13,12 +12,10 @@ import java.util.Properties;
  * FilterKafkaConsumer class for creating Kafka Consumer
  */
 public class FilterKafkaConsumer {
-    private static String topicName;
+    private static String topicName = "Topic1";
     private final Logger LOGGER = LoggerFactory.getLogger(MessageFilterController.class);
-    private ReadPropsFromFile propsFromFile;
 
     public FilterKafkaConsumer() {
-        propsFromFile = new ReadPropsFromFile();
     }
 
     /**
@@ -29,9 +26,11 @@ public class FilterKafkaConsumer {
     public KafkaConsumer<String, Car> startConsumer() {
         new FilterKafkaConsumer();
         // reading properties from config file
-        Properties props = propsFromFile.read("configConsumer.properties");
-        topicName = props.getProperty("topicName1");
-
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "host.docker.internal:9092");
+        props.put("key.deserializer", "serialize.CarDeserializer");
+        props.put("value.deserializer", "serialize.CarDeserializer");
+        props.put("group.id", "test");
         //creating new Kafka consumer
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
         consumer.subscribe(Collections.singletonList(topicName));

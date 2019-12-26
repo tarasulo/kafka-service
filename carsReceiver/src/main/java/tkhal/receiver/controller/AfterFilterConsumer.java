@@ -2,7 +2,8 @@ package tkhal.receiver.controller;
 
 import model.Car;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import reader.ReadPropsFromFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -13,11 +14,10 @@ import java.util.Properties;
  * and getting cars from topic
  */
 public class AfterFilterConsumer {
-    private String topicName;
-    private ReadPropsFromFile readPropsFromFile;
+    private String topicName = "Topic2";
+    private final Logger LOGGER = LoggerFactory.getLogger(AfterFilterConsumer.class);
 
     public AfterFilterConsumer() {
-        readPropsFromFile = new ReadPropsFromFile();
     }
 
     /**
@@ -29,12 +29,16 @@ public class AfterFilterConsumer {
         new AfterFilterConsumer();
 
         // reading Kafka consumer properties from config file
-        Properties props = readPropsFromFile.read("configConsumer.properties");
-        topicName = props.getProperty("topicName2");
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "host.docker.internal:9092");
+        props.put("key.deserializer", "serialize.CarDeserializer");
+        props.put("value.deserializer", "serialize.CarDeserializer");
+        props.put("group.id", "test");
 
         // creating Kafka consumer
         KafkaConsumer<String, Car> consumer = new KafkaConsumer<String, Car>(props);
         consumer.subscribe(Collections.singletonList(topicName));
+        LOGGER.info("Subscribed to topic " + topicName);
         return consumer;
     }
 }

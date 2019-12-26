@@ -14,3 +14,7 @@ jar cfm Sender.jar newCarsSender/src/main/java/META-INF/MANIFEST.MF -C newCarsSe
 jar cfm Filter.jar carsFilter/src/main/java/META-INF/MANIFEST.MF -C carsFilter/target/classes .
 jar cfm Consumer.jar carsReceiver/src/main/java/META-INF/MANIFEST.MF -C carsReceiver/target/classes .
 jar cfm CarFactoryServer.jar newCarsCreator/src/main/java/META-INF/MANIFEST.MF -C newCarsCreator/target/classes .
+cp -r Sender.jar newCarsSender
+cp -r Filter.jar carsFilter
+cp -r Consumer.jar carsReceiver
+cp -r CarFactoryServer.jar newCarsCreator

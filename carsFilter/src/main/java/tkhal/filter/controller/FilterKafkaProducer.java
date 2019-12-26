@@ -6,7 +6,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reader.ReadPropsFromFile;
 
 import java.util.Properties;
 
@@ -14,13 +13,11 @@ import java.util.Properties;
  * This is the class for creating Kafka Producer
  */
 public class FilterKafkaProducer {
-    private String topicFilteredName;
+    private String topicFilteredName = "Topic2";
     private final static Logger LOGGER = LoggerFactory.getLogger(FilterKafkaProducer.class);
     private Producer<String, Car> producer;
-    private ReadPropsFromFile propsFromFile;
 
     public FilterKafkaProducer() {
-        propsFromFile = new ReadPropsFromFile();
     }
 
     /**
@@ -32,8 +29,10 @@ public class FilterKafkaProducer {
 
         new FilterKafkaProducer();
         //reading Kafka producer properties from config file
-        Properties propsRedirect = propsFromFile.read("configProducer.properties");
-        topicFilteredName = propsRedirect.getProperty("topicName2");
+        Properties propsRedirect = new Properties();
+        propsRedirect.put("bootstrap.servers", "host.docker.internal:9092");
+        propsRedirect.put("key.serializer", "serialize.CarSerializer");
+        propsRedirect.put("value.serializer", "serialize.CarSerializer");
 
         // creating new Kafka producer
         producer = new KafkaProducer<String, Car>(propsRedirect);
