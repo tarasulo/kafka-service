@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * This is a model class for object type car
+ */
 public class Car implements Serializable {
 
     private static final long serialVersionUID = 482935899896657947L;

@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * CarDeserializer is a class for deserialize objects
+ * it's needed for Kafka Consumer correctly getting cars
+ */
 public class CarDeserializer implements Deserializer<Car> {
 
     private final static Logger logger = LoggerFactory.getLogger(CarSerializer.class);
@@ -23,7 +27,7 @@ public class CarDeserializer implements Deserializer<Car> {
         try {
             newcar = mapper.readValue(car, Car.class);
         } catch (Exception exception) {
-            logger.error("Error in deserializing {} bytes {} .", car, exception);
+            logger.error("Error in deserialize {} bytes {} .", car, exception);
         }
         return newcar;
     }

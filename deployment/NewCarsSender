@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd ..
-java -cp Sender.jar:producer/target/uber/* controller.NewCarsSender
+java -cp Sender.jar:newCarsSender/target/uber/* tkhal.sender.controller.NewCarsSender
